@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansari Core - Autonomous OS Assistant</title>
+    <link rel="icon" type="image/ico" href="icon.ico">
+    <script src="https://unpkg.com/@lucide/lab@latest/dist/lucide-lab.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-deep: #07080E;
+            --bg-panel: #0F111A;
+            --bg-terminal: #05060A;
+            --neon-cyan: #00E5FF;
+            --neon-hover: #00B8D4;
+            --border-color: #1E2235;
+            --text-main: #FFF;
+            --text-muted: #8F96A3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Subtle grid background matrix effect */
+        .bg-matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(30, 34, 53, 0.15) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(30, 34, 53, 0.15) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-family: 'Consolas', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--neon-cyan);
+            letter-spacing: 1px;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 20px;
+                text-align: center;
+            }
+            .features {
+                justify-content: center;
+            }
+            .hero-right {
+                order: -1;
+            }
+        }
+
+        .hero-left h1 {
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero-left h1 span {
+            color: var(--neon-cyan);
+            font-family: 'Consolas', monospace;
+        }
+
+        .hero-left p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .feature-item {
+                justify-content: center;
+            }
+        }
+
+        .feature-item i {
+            color: var(--neon-cyan);
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--neon-cyan);
+            color: var(--bg-panel);
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background-color: var(--neon-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.4);
+        }
+
+        /* Mock UI Container matching CustomTkinter theme */
+        .hero-right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mock-ui {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .mock-header {
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .mock-title {
+            font-family: 'Consolas', monospace;
+            color: var(--neon-cyan);
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .mock-status {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #00E5FF;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .mock-terminal {
+            background-color: var(--bg-terminal);
+            border: 1px solid #141724;
+            border-radius: 8px;
+            min-height: 140px;
+            margin: 16px 0;
+            padding: 16px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mock-btn {
+            background-color: var(--neon-cyan);
+            color: var(--bg-panel);
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-align: center;
+            border: none;
+            cursor: default;
+        }
+
+        .mock-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #3F475F;
+        }
+
+        .mock-config {
+            background-color: #1E2235;
+            color: var(--neon-cyan);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: #3F475F;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(30, 34, 53, 0.3);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-matrix"></div>
+    
+    <header>
+        <div class="brand">ANSARI CORE</div>
+    </header>
+
+    <main>
+        <div class="hero-left">
+            <h1>Autonomous<br>OS Module <span>v2.0</span></h1>
+            <p>A high-performance desktop companion built on CustomTkinter and powered by Groq Llama-3 multimodal synthesis. Direct your computer via native hardware automation layers using plain speech.</p>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <i data-lucide="eye"></i>
+                    <span>Real-time Multi-modal Screen Analysis Engine</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="mic"></i>
+                    <span>Voice Activation & Continuous Stream Processing</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="cpu"></i>
+                    <span>Deterministic Low-latency JSON Automation Compiler</span>
+                </div>
+                <div class="feature-item">
+                    <i data-lucide="mouse-pointer"></i>
+                    <span>PyAutoGUI Native Virtual Device Control Map</span>
+                </div>
+            </div>
+
+            <!-- Download Button: Points to app payload download package -->
+            <a href="" download class="btn-download">
+                <i data-lucide="download"></i>
+                DOWNLOAD CORE RUNTIME
+            </a>
+        </div>
+
+        <div class="hero-right">
+            <!-- Simulated application layout mirror -->
+            <div class="mock-ui">
+                <div class="mock-header">
+                    <div class="mock-title">ANSARI CORE</div>
+                    <div class="mock-status">● ONLINE CHANNEL [ANSARI]</div>
+                </div>
+                
+                <div class="mock-terminal">
+                    <div>Decompiled: "ansari click on search bar"<br><br>
+                    <span style="color:#FFF">> Step [1/1]: Executing mouse_click...</span><br>
+                    <span style="color:var(--neon-cyan)">Moving hardware cursor target to: X=450, Y=320</span></div>
+                    <div style="color: #00E676; margin-top: 8px;">● SEQUENCES EXECUTED SUCCESSFULLY</div>
+                </div>
+
+                <button class="mock-btn" disabled>👁  ANALYSE SCREEN</button>
+
+                <div class="mock-footer">
+                    <span>Wake Phase: 'ansari'</span>
+                    <span class="mock-config">⚙ CONFIG</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 Ansari Ecosystem Architecture. Running native hardware sensory matrix.
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

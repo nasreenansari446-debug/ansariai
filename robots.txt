@@ -12,4 +12,4 @@ Disallow: /config/
 Disallow: /assets/setup/
 
 # Point search engine crawlers to your sitemap (uncomment and edit once deployed)
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://ansari-ai.onrender.com/sitemap.xml

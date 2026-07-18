@@ -1,0 +1,15 @@
+# User-Agent configuration for Ansari Ecosystem Ltd Web Properties
+# Target Platform: Ansari Core Autonomous OS Companion Product Showcase
+
+User-agent: *
+Allow: /index.html
+Allow: /favicon.png
+Allow: /$
+
+# Prevent crawling of direct executable/archive directories if hosted locally
+Disallow: /bin/
+Disallow: /config/
+Disallow: /assets/setup/
+
+# Point search engine crawlers to your sitemap (uncomment and edit once deployed)
+Sitemap: https://yourdomain.com/sitemap.xml
